@@ -1,17 +1,15 @@
-from bs4 import BeautifulSoup
-import urllib.request as req
+from selenium import webdriver
+import chromedriver_autoinstaller
+import time
 
-# 서버한테 요청메시지 보내고, HTML 코드 받기
-code = req.urlopen("http://www.cgv.co.kr/movies/")
-# print(code.read())
+cp = chromedriver_autoinstaller.install()
+browser = webdriver.Chrome(cp)
+browser.get("https://nid.naver.com/nidlogin.login?mode=form&url=https%3A%2F%2Fwww.naver.com")
 
-# HTML 코드 이쁘게 정리하기
-soup = BeautifulSoup(code, "html.parser")
-# print(soup)
-
-# 내가 원하는 요소 알려주기
-# title = soup.select_one("strong.title")
-# print(title.string)
-title = soup.select("div.sect-movie-chart strong.title")
-for i in title:
-    print(i.string)
+# 로그인 하기
+id = browser.find_element_by_css_selector("input#id")
+id.send_keys("talingpython")
+pw = browser.find_element_by_css_selector("input#pw")
+pw.send_keys("q1w2e3!@#")
+button = browser.find_element_by_css_selector("button.btn_login")
+button.click()
